@@ -40,6 +40,11 @@
       "problemMatcher": [
         "$tslint5"
       ]
+    },
+    {
+      "type": "func",
+      "command": "extensions install",
+      "problemMatcher": []
     }
   ]
 }
