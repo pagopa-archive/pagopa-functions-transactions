@@ -45,6 +45,7 @@
     "typescript": "^3.7.0"
   },
   "dependencies": {
+    "csv-parse": "^4.8.8",
     "documentdb": "^1.15.3",
     "durable-functions": "^1.2.4",
     "express": "^4.15.3",
