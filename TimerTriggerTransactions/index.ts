@@ -1,5 +1,5 @@
 import { AzureFunction, Context } from "@azure/functions";
-import * as csvParse from "csv-parse";
+import * as csvParse from "csv-parse/lib/sync";
 import * as fs from "fs";
 
 const timerTriggerTransactions: AzureFunction = async (
@@ -18,19 +18,20 @@ const timerTriggerTransactions: AzureFunction = async (
     context.log("Environment not ready yet, wait ...");
   }
 
-  const myParser: csvParse.Parser = csvParse(
-    { delimiter: "," },
-    (data, err) => {
-      // qui abbiamo i dati dal file.
-      console.log(data);
-    }
-  );
-
   const transactionsFiles = fs.readdirSync("./data");
 
   transactionsFiles.forEach(file => {
     context.log(file);
-    fs.createReadStream(`./data/${file}`).pipe(myParser);
+    context.log("alllleeeeeeeoooo");
+    const csvFile = fs.readFileSync(`./data/${file}`);
+    const results = csvParse(csvFile, {
+      cast: true,
+      columns: true,
+      delimiter: ","
+    }) as readonly string[];
+
+    context.log(results.slice(0, 10));
+    // Print records to the console
   });
   context.log("Timer verify function ran!", timeStamp);
 };
